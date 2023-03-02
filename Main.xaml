@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Main" sap2010:ExpressionActivityEditor.ExpressionActivityEditor="C#" sap:VirtualizedContainerService.HintSize="1001,1185" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" sap2010:ExpressionActivityEditor.ExpressionActivityEditor="C#" sap:VirtualizedContainerService.HintSize="2754,1335" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
       <x:String>System.Activities</x:String>
@@ -82,34 +82,36 @@
       <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="496,930" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="546,1270" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <uix:NApplicationCard AttachMode="ByInstance" CloseMode="Never" DisplayName="Use Application: Perseus Terminalübersicht" sap:VirtualizedContainerService.HintSize="434,819" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" OpenMode="Always" ScopeGuid="d8246350-fca7-489c-aeca-5eddce957184" Version="V2">
+    <uix:NApplicationCard AttachMode="ByInstance" CloseMode="Never" DisplayName="Use Application: Perseus Terminalübersicht" sap:VirtualizedContainerService.HintSize="484,1159" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" OpenMode="Always" ScopeGuid="d8246350-fca7-489c-aeca-5eddce957184" Version="V2">
       <uix:NApplicationCard.Body>
         <ActivityAction x:TypeArguments="x:Object">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="400,528" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="450,868" sap2010:WorkflowViewState.IdRef="Sequence_2">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" DisplayName="Type Into 'text'" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="338,218" sap2010:WorkflowViewState.IdRef="NTypeInto_1" ScopeIdentifier="d8246350-fca7-489c-aeca-5eddce957184" Text="64085357" Version="V3">
+            <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" DisplayName="Type Into 'text'" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="388,218" sap2010:WorkflowViewState.IdRef="NTypeInto_1" ScopeIdentifier="d8246350-fca7-489c-aeca-5eddce957184" Text="64085357" Version="V3">
               <uix:NTypeInto.Target>
                 <uix:TargetAnchorable DesignTimeRectangle="249, 86, 254, 20" DesignTimeScaleFactor="1" ElementType="InputBox" FriendlyName="'text'" FullSelectorArgument="&lt;java cls='JTextField' role='text' /&gt;" FuzzySelectorArgument="&lt;java cls='JTextField' role='text' /&gt;" Guid="97d36ddb-5571-4103-b587-8fa7e0e730d8" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAQIAAAAYCAYAAAARdfMZAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACFSURBVHhe7dyxDYAwDEVB5mYENmA3z5AVwC4iCiLR4zvpKxPkld4i4jKz3hMCM3tCsB+nmTXaGGMdAqCHikARAmhs/nchgMaEABACQAiAJASAEABCACQhAIQAEAIgCQEgBIAQAEkIACEAPkJQxwrqNbP/bxmCebEE6OMVAjPrOyEwa7+4bmqCt/LpNYzeAAAAAElFTkSuQmCC" InformativeScreenshot="867642e5dc967a79259a456475018fb7.png" ScopeSelectorArgument="&lt;wnd app='java*.exe' cls='SunAwtFrame' title='Perseus Terminalübersicht' /&gt;" SearchSteps="Selector, FuzzySelector, Image" Version="V1" Visibility="Interactive" />
               </uix:NTypeInto.Target>
             </uix:NTypeInto>
-            <uix:NClick ClickType="Single" DisplayName="Click 'Liste anzeigen'" sap:VirtualizedContainerService.HintSize="338,157" sap2010:WorkflowViewState.IdRef="NClick_1" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="d8246350-fca7-489c-aeca-5eddce957184" Version="V3">
+            <uix:NClick ClickType="Single" DisplayName="Click 'Liste anzeigen'" sap:VirtualizedContainerService.HintSize="388,157" sap2010:WorkflowViewState.IdRef="NClick_1" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="d8246350-fca7-489c-aeca-5eddce957184" Version="V3">
               <uix:NClick.Target>
                 <uix:TargetAnchorable DesignTimeRectangle="249, 364, 148, 26" DesignTimeScaleFactor="1" ElementType="Button" FriendlyName="'Liste anzeigen'" FullSelectorArgument="&lt;java hasTableAncestor='0' name='Liste anzeigen' role='push button' /&gt;" FuzzySelectorArgument="&lt;java hasTableAncestor='0' name='Liste anzeigen' role='push button' check:text='Liste anzeigen' /&gt;" Guid="3bdb5b44-e5f8-4665-a4e6-5705dc53d2ef" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAJgAAAAeCAYAAADQK9fkAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJkSURBVHhe7ZfBbeMwEEXTig/reB0DAVYLAwFycRVshdgStgABWwgL4d01uAUuKc7QJE0pjGNCUvAPD7Co8aekeRhbT+fz2QDQCggGmhIE+/P3HwAP43K5DCSC8SIAXwGCgaZAMNAUCAaaAsFAUyAYaAoEA02BYKApCxZMGdl1ppPq9pySprPnpMrWC2jVG9kXMpbCJ+5ljaxTsGoekQG+wreYYLqXRrjaAUHr2vSC1yyiN9p9V9uJxutCml5TZsZNZq/9Oft9ty6kpJzoHF1XjIi+V9z35l5EqBFDvTTK1U1lTF3TzKxfsPBwfZ2ScVOyDK4dHr7OaiOGOhEamNRRhheWJc4zaF/OmNq3dC9DHWek+xYzqq5pHr6NYK6ZTjKdTKQ0w0+Hqzj59EixTezdxKCJUpQlF9oTplDNvtHnvC7OnsyouKa5WL9g9lhxQwkh6eewKNi1LtRTYwJhItifIcXTolKwSHiWYXLfCcH8cSzYSAYEu4d6wTzavzHSfxR/7oMJNkJelzTsg2b64+v5Ul7CvRMsBoLdQ6Vg9JkfrvtzPiZY3oixpvl1ytCUwXVTzaRzN82d2je+l6SO902zixlT1zQzyxcsY3iI2QTT9tg31pG+QbEs4YHntZSREr+B2hoZCzfezOteEfz2OrZvfi+cYX+eZS7KWAYEA1WQbF4UK7kThQVdKRBsYSialjzFiv+5VgQEA02BYKApEAw0BYKBpkAw0JRRwQB4FEGw392rmYv9fm95AcTxeDS73W4xHA6H4vpneHp/+2XmYrvdmh/PPwFxOp3MZrNZDG4AlNbr2Zj/g6BpdDK1Z9gAAAAASUVORK5CYII=" InformativeScreenshot="88152ece5c43133dac2f25640919d8b9.png" ScopeSelectorArgument="&lt;wnd app='java*.exe' cls='SunAwtFrame' title='Perseus Terminalübersicht' /&gt;" SearchSteps="Selector, FuzzySelector, Image" Version="V1" Visibility="Interactive" />
               </uix:NClick.Target>
             </uix:NClick>
+            <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="388,90" sap2010:WorkflowViewState.IdRef="WriteLine_1" />
+            <ui:GetRobotAsset AssetName="{x:Null}" TimeoutMS="{x:Null}" Value="{x:Null}" CacheStrategy="None" DisplayName="Get Asset" sap:VirtualizedContainerService.HintSize="388,168" sap2010:WorkflowViewState.IdRef="GetRobotAsset_1" />
           </Sequence>
         </ActivityAction>
       </uix:NApplicationCard.Body>
