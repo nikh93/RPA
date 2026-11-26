@@ -1,10 +1,12 @@
 # StreamDemo – Handy-Kamera live auf ein zweites Handy
 
+Funktioniert komplett ohne Raspberry Pi oder Server: Die beiden Handys verbinden sich direkt im lokalen Netz.
+
 Kleine Android-Demo (Kotlin, Jetpack Compose, CameraX) mit zwei Modi:
 
 | Modus | Was passiert |
 |-------|--------------|
-| **Stream** | Kamera-Vorschau. „Aufnahme starten“ öffnet einen Server auf **Port 8080** und sendet das Kamerabild live. Angezeigt werden die IP-Adresse(n) des Geräts und die Zahl der Zuschauer. Oben rechts lässt sich zwischen Front- und Rückkamera wechseln. |
+| **Stream** | Kamera-Vorschau. „Aufnahme starten“ öffnet einen Server auf **Port 8080** und sendet das Kamerabild live. Angezeigt werden die IP-Adresse(n) des Geräts und eine Statusanzeige: gelb „Warte auf Empfänger“, grün „Empfänger verbunden“ mit der IP des Control-Handys. Oben rechts lässt sich zwischen Front- und Rückkamera wechseln. |
 | **Control** | IP-Adresse (und Port) des Stream-Geräts eingeben → „Verbinden“ → das Live-Bild erscheint mit fps-Anzeige. Die zuletzt benutzte IP wird gespeichert. |
 
 Beide Geräte müssen im **selben WLAN** sein (oder eins macht einen Hotspot, das andere verbindet sich).

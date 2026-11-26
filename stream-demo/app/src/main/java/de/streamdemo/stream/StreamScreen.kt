@@ -39,7 +39,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -81,7 +80,7 @@ fun StreamScreen(onBack: () -> Unit) {
 
     var streaming by remember { mutableStateOf(false) }
     var useFrontCamera by remember { mutableStateOf(false) }
-    var viewers by remember { mutableIntStateOf(0) }
+    var receivers by remember { mutableStateOf<List<String>>(emptyList()) }
     var error by remember { mutableStateOf<String?>(null) }
 
     val previewView = remember { PreviewView(context) }
@@ -100,7 +99,7 @@ fun StreamScreen(onBack: () -> Unit) {
     DisposableEffect(server) {
         val mainHandler = Handler(Looper.getMainLooper())
         if (server != null) {
-            server.onClientCountChanged = { count -> mainHandler.post { viewers = count } }
+            server.onReceiversChanged = { list -> mainHandler.post { receivers = list } }
             try {
                 server.start()
                 error = null
@@ -111,7 +110,7 @@ fun StreamScreen(onBack: () -> Unit) {
         }
         onDispose {
             server?.stop()
-            viewers = 0
+            receivers = emptyList()
         }
     }
 
@@ -196,7 +195,7 @@ fun StreamScreen(onBack: () -> Unit) {
                 }
                 if (streaming) {
                     Text(
-                        "● LIVE  ·  $viewers Zuschauer",
+                        "● LIVE",
                         color = Color.White,
                         modifier = Modifier
                             .align(Alignment.TopStart)
@@ -212,6 +211,7 @@ fun StreamScreen(onBack: () -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 if (streaming) {
+                    ReceiverStatus(receivers)
                     val addresses = remember(streaming) { MjpegServer.localIpAddresses() }
                     Text("Im Control-Modus eingeben:", style = MaterialTheme.typography.labelLarge)
                     if (addresses.isEmpty()) {
@@ -247,6 +247,37 @@ fun StreamScreen(onBack: () -> Unit) {
                         )
                     }
                 }
+            }
+        }
+    }
+}
+
+/** Gut sichtbare Anzeige, ob gerade ein Empfänger (Control-Handy) zuschaut. */
+@Composable
+private fun ReceiverStatus(receivers: List<String>) {
+    val connected = receivers.isNotEmpty()
+    val background = if (connected) Color(0xFF2E7D32) else Color(0xFFF9A825)
+    val foreground = if (connected) Color.White else Color.Black
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .background(background, MaterialTheme.shapes.medium)
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(if (connected) "✔" else "…", color = foreground, style = MaterialTheme.typography.titleLarge)
+        Column(Modifier.padding(start = 12.dp)) {
+            Text(
+                when (receivers.size) {
+                    0 -> "Warte auf Empfänger"
+                    1 -> "Empfänger verbunden"
+                    else -> "${receivers.size} Empfänger verbunden"
+                },
+                color = foreground,
+                style = MaterialTheme.typography.titleMedium,
+            )
+            if (connected) {
+                Text(receivers.distinct().joinToString(), color = foreground, style = MaterialTheme.typography.bodyMedium)
             }
         }
     }

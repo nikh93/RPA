@@ -59,9 +59,9 @@ class MjpegTest {
     }
 
     @Test
-    fun clientCountGoesUpAndDown() {
-        val counts = mutableListOf<Int>()
-        server.onClientCountChanged = { synchronized(counts) { counts += it } }
+    fun receiverConnectAndDisconnectIsReported() {
+        val changes = mutableListOf<List<String>>()
+        server.onReceiversChanged = { synchronized(changes) { changes += it } }
         server.start()
 
         val client = MjpegClient.connect("127.0.0.1", server.localPort)
@@ -71,7 +71,7 @@ class MjpegTest {
         // Server merkt das Trennen beim nächsten Schreibversuch
         publishUntil({ server.clientCount == 0 }) { fakeJpeg(it) }
 
-        synchronized(counts) { assertEquals(listOf(1, 0), counts) }
+        synchronized(changes) { assertEquals(listOf(listOf("127.0.0.1"), emptyList<String>()), changes) }
     }
 
     @Test

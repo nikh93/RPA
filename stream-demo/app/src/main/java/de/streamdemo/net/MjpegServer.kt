@@ -7,7 +7,6 @@ import java.net.InetSocketAddress
 import java.net.NetworkInterface
 import java.net.ServerSocket
 import java.net.Socket
-import java.util.concurrent.atomic.AtomicInteger
 import kotlin.concurrent.thread
 
 /**
@@ -26,13 +25,16 @@ class MjpegServer(private val port: Int = DEFAULT_PORT) {
     @Volatile
     private var running = false
     private var serverSocket: ServerSocket? = null
-    private val clients = AtomicInteger(0)
+    private val receivers = mutableListOf<String>() // IP-Adressen der verbundenen Empfänger
 
-    /** Wird (auf einem Hintergrund-Thread) aufgerufen, wenn sich die Zuschauerzahl ändert. */
+    /**
+     * Wird (auf einem Hintergrund-Thread) aufgerufen, wenn sich ein Empfänger
+     * verbindet oder trennt. Übergeben wird die Liste der verbundenen IP-Adressen.
+     */
     @Volatile
-    var onClientCountChanged: ((Int) -> Unit)? = null
+    var onReceiversChanged: ((List<String>) -> Unit)? = null
 
-    val clientCount: Int get() = clients.get()
+    val clientCount: Int get() = synchronized(receivers) { receivers.size }
 
     /** Tatsächlich belegter Port (wichtig, wenn mit Port 0 gestartet wurde). */
     val localPort: Int get() = serverSocket?.localPort ?: port
@@ -99,7 +101,8 @@ class MjpegServer(private val port: Int = DEFAULT_PORT) {
             )
             out.flush()
 
-            changeClients(+1)
+            val address = socket.inetAddress?.hostAddress ?: "?"
+            changeReceivers { it += address }
             try {
                 var sentSeq = 0L
                 while (running) {
@@ -119,7 +122,7 @@ class MjpegServer(private val port: Int = DEFAULT_PORT) {
                     out.flush()
                 }
             } finally {
-                changeClients(-1)
+                changeReceivers { it -= address }
             }
         } catch (_: IOException) {
             // Zuschauer hat die Verbindung getrennt
@@ -127,9 +130,12 @@ class MjpegServer(private val port: Int = DEFAULT_PORT) {
         }
     }
 
-    private fun changeClients(delta: Int) {
-        val count = clients.addAndGet(delta)
-        onClientCountChanged?.invoke(count)
+    private fun changeReceivers(change: (MutableList<String>) -> Unit) {
+        // Im Lock melden, damit Änderungen in der richtigen Reihenfolge ankommen.
+        synchronized(receivers) {
+            change(receivers)
+            onReceiversChanged?.invoke(receivers.toList())
+        }
     }
 
     companion object {
