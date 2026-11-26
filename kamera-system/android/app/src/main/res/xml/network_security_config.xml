@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Der Pi spricht unverschlüsseltes HTTP/RTSP. Unterwegs läuft alles durch
+  den verschlüsselten Tailscale-Tunnel (WireGuard), daher ist das hier erlaubt.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

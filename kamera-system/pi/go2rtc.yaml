@@ -1,0 +1,48 @@
+# go2rtc-Konfiguration für den Raspberry Pi
+# Kopiert nach /etc/go2rtc/go2rtc.yaml (macht install.sh automatisch).
+#
+# Der Pi sammelt die 3 Kameras ein und stellt sie bereit:
+#   - HTTP-API  auf Port 1984  (Kameraliste + Standbilder für die App)
+#   - RTSP      auf Port 8554  (Live-Video für die App)
+#
+# WICHTIG: Benutzername/Passwort unten ändern und dieselben Werte in der App eintragen.
+
+api:
+  listen: ":1984"
+  username: "admin"
+  password: "BITTE_AENDERN"
+
+rtsp:
+  listen: ":8554"
+  username: "admin"
+  password: "BITTE_AENDERN"
+
+# ---------------------------------------------------------------------------
+# Die 3 Kameras. Der Name links (z. B. "wohnzimmer") erscheint in der App.
+# Nur Kleinbuchstaben, Ziffern und _ verwenden.
+# IP-Adressen am besten im Router fest vergeben (DHCP-Reservierung).
+# Die drei Einträge zeigen je ein Beispiel für Variante A/B/C aus der README -
+# passe sie an deine Kameras an (Name, IP, Zugangsdaten).
+# ---------------------------------------------------------------------------
+streams:
+
+  # Variante B: TP-Link Tapo C100 / C200 (RTSP)
+  # Zugangsdaten = "Kamerakonto", das du in der Tapo-App unter
+  # Kameraeinstellungen > Erweiterte Einstellungen > Kamerakonto anlegst.
+  # stream1 = 1080p, stream2 = 360p (spart Bandbreite unterwegs)
+  wohnzimmer:
+    - rtsp://kamerauser:kamerapasswort@192.168.178.51:554/stream1
+
+  schlafzimmer:
+    - rtsp://kamerauser:kamerapasswort@192.168.178.52:554/stream1
+
+  # Variante A: ESP32-CAM (liefert MJPEG). Die zweite Zeile wandelt das Bild
+  # mit ffmpeg in H.264 um, damit die App es per RTSP abspielen kann.
+  kueche:
+    - http://192.168.178.53:81/stream
+    - ffmpeg:kueche#video=h264
+
+  # Variante C: Kameramodul direkt am Pi (CSI-Anschluss), z. B. Camera Module 3
+  # (ungetestet - Details siehe go2rtc-Doku zur "exec"-Quelle)
+  # flur:
+  #   - "exec:rpicam-vid -t 0 -n --inline --width 1280 --height 720 --framerate 15 --codec h264 -o -"
