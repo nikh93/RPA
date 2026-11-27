@@ -47,6 +47,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import de.streamdemo.net.MjpegClient
 import de.streamdemo.net.MjpegServer
+import de.streamdemo.rememberLocalNetworkAccess
+import de.streamdemo.stream.LocalNetworkDenied
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -71,6 +73,7 @@ fun ControlScreen(onBack: () -> Unit) {
     var status by remember { mutableStateOf<String?>(null) }
     var fps by remember { mutableIntStateOf(0) }
 
+    val localNetwork = rememberLocalNetworkAccess()
     val portNumber = port.toIntOrNull()?.takeIf { it in 1..65535 }
     val canConnect = host.isNotBlank() && portNumber != null
 
@@ -80,8 +83,8 @@ fun ControlScreen(onBack: () -> Unit) {
             putString("host", host.trim())
             putInt("port", portNumber!!)
         }
-        attempts++
-        target = Target(host.trim(), portNumber!!, attempts)
+        val t = Target(host.trim(), portNumber!!, ++attempts)
+        localNetwork.runWithPermission { target = t }
     }
 
     // Empfang läuft, solange ein Ziel gesetzt ist. Neues Ziel = alte Verbindung wird beendet.
@@ -157,6 +160,12 @@ fun ControlScreen(onBack: () -> Unit) {
                             status = null
                         }) { Text("Trennen") }
                     }
+                }
+            }
+
+            if (localNetwork.denied) {
+                Box(Modifier.padding(horizontal = 16.dp)) {
+                    LocalNetworkDenied(onOpenSettings = localNetwork::openAppSettings)
                 }
             }
 

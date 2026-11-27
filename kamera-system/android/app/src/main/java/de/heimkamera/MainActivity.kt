@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,6 +47,10 @@ private fun App(store: ConfigStore) {
         mutableStateOf<Screen>(if (config.isComplete) Screen.Cameras else Screen.Settings)
     }
     val client = remember(config) { Go2RtcClient(config) }
+
+    // Android 17+: Zugriff aufs Heimnetz (Pi im WLAN) braucht eine eigene Berechtigung.
+    val localNetwork = rememberLocalNetworkAccess()
+    LaunchedEffect(Unit) { localNetwork.runWithPermission { } }
 
     when (val current = screen) {
         Screen.Cameras -> CameraListScreen(

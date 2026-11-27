@@ -54,6 +54,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import de.streamdemo.net.MjpegServer
+import de.streamdemo.rememberLocalNetworkAccess
 import java.io.IOException
 import java.util.concurrent.Executors
 
@@ -79,6 +80,7 @@ fun StreamScreen(onBack: () -> Unit) {
     }
 
     var streaming by remember { mutableStateOf(false) }
+    val localNetwork = rememberLocalNetworkAccess()
     var useFrontCamera by remember { mutableStateOf(false) }
     var receivers by remember { mutableStateOf<List<String>>(emptyList()) }
     var error by remember { mutableStateOf<String?>(null) }
@@ -230,10 +232,14 @@ fun StreamScreen(onBack: () -> Unit) {
                     )
                 }
                 error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+                if (localNetwork.denied) LocalNetworkDenied(onOpenSettings = localNetwork::openAppSettings)
                 Row(Modifier.fillMaxWidth()) {
                     Button(
                         enabled = hasPermission,
-                        onClick = { streaming = !streaming },
+                        onClick = {
+                            if (streaming) streaming = false
+                            else localNetwork.runWithPermission { streaming = true }
+                        },
                         colors = if (streaming) {
                             ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                         } else {
@@ -280,5 +286,17 @@ private fun ReceiverStatus(receivers: List<String>) {
                 Text(receivers.distinct().joinToString(), color = foreground, style = MaterialTheme.typography.bodyMedium)
             }
         }
+    }
+}
+
+@Composable
+internal fun LocalNetworkDenied(onOpenSettings: () -> Unit) {
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Text(
+            "Ohne die Berechtigung „Lokales Netzwerk“ blockiert Android die Verbindung " +
+                "zwischen den Handys. Bitte in den App-Einstellungen erlauben.",
+            color = MaterialTheme.colorScheme.error,
+        )
+        androidx.compose.material3.TextButton(onClick = onOpenSettings) { Text("App-Einstellungen öffnen") }
     }
 }
